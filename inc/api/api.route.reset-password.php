@@ -33,8 +33,9 @@ add_action( 'rest_api_init', function () {
       }
 
       return array(
-        'status' => 200,
-        'result' => true,
+        'data' => array(
+          'status' => 200,
+        ),
         'message' => 'A password reset email has been sent to your email address.',
       );
 

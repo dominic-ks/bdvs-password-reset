@@ -41,8 +41,9 @@ add_action( 'rest_api_init', function () {
       }
 
       return array(
-        'status' => 200,
-        'result' => true,
+        'data' => array(
+          'status' => 200,
+        ),
         'message' => 'Password reset successfully.',
       );
 

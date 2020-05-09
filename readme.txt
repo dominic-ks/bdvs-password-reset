@@ -1,6 +1,6 @@
 === Password Reset with Code for WordPress REST API ===
 
-Contributors: 
+Contributors: dominic_ks
 Tags: wp-api, password reset
 Requires at least: 4.2
 Tested up to: 5.3
@@ -30,8 +30,9 @@ Also, two new endpoints are added to this namespace.
 
 ### Reset Password
 
-```
+`
 $.ajax({
+  url: 'https://your-domain.com/wp-json/bdpwr/v1/reset-password',
   method: 'POST',
   data: {
     email: 'example@example.com',
@@ -43,12 +44,13 @@ $.ajax({
     console.log( response );
   },
 });
-```
+`
 
 ### Set New Password
 
-```
+`
 $.ajax({
+  url: 'https://your-domain.com/wp-json/bdpwr/v1/set-password',
   method: 'POST',
   data: {
     email: 'example@example.com',
@@ -62,37 +64,37 @@ $.ajax({
     console.log( response );
   },
 });
-```
+`
 
 ## Example Success Responses (JSON)
 
 ### Reset Password
 
-```json
+`json
 {
     "data": {
         "status": 200
     },
     "message": "A password reset email has been sent to your email address."
 }
-```
+`
 
 ### Set New Password
 
-```json
+`json
 {
     "data": {
         "status": 200
     },
     "message": "Password reset successfully."
 }
-```
+`
 
 ## Example Error Responses (JSON)
 
 ### Reset Password
 
-```json
+`json
 {
     "code": "bad_email",
     "message": "No user found with this email address.",
@@ -100,11 +102,11 @@ $.ajax({
         "status": 500
     }
 }
-```
+`
 
 ### Set New Password
 
-```json
+`json
 {
     "code": "bad_request",
     "message": "You must request a password reset code before you try to set a new password.",
@@ -112,43 +114,43 @@ $.ajax({
         "status": 500
     }
 }
-```
+`
 
 ## Filters
 
 A number of WordPress filters have been added to help customise the process, please feel free to request additional filters or submit a pull request with any that you required.
 
 ### Filter the length of the code
-```
+`
 add_filter( 'bdpwr_code_length' , function( $length ) {
   return 4;
 });
-```
+`
 
 ### Filter Expiration Time
-```
+`
 add_filter( 'bdpwr_code_expiration_seconds' , function( $seconds ) {
   return 900;
 });
-```
+`
 
 ### Filter the date format used by the plugin to display expiration times
-```
+`
 add_filter( 'bdpwd_date_format' , function( $format ) {
   return 'h:i';
 });
-```
+`
 
 ### Filter the reset email subject
-```
+`
 add_filter( 'bdpwr_code_email_subject' , function( $subject ) {
   return 'Password Reset';
 });
-```
+`
 
 ### Filter the email content
-```
+`
 add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry ) {
   return $text;
 });
-```
+`

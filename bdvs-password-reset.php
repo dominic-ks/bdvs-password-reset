@@ -7,7 +7,7 @@
 * Plugin Name: REST API Password Reset with Code
 * Plugin URI: https://www.bedevious.co.uk/
 * Description: Allow users to reset their password using a random 4 digit code via the REST API
-* Version: 0.0.1
+* Version: 0.0.2
 * Author: Be Devious Web Development
 * Author URI: https://www.bedevious.co.uk/
 * License: GNU GPLv3

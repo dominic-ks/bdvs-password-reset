@@ -3,7 +3,7 @@
 Contributors: dominic_ks
 Tags: wp-api, password reset
 Requires at least: 4.2
-Tested up to: 5.3
+Tested up to: 5.4.1
 Requires PHP: 5.3.0
 Stable tag: 0.0.1
 License: GNU GPLv3

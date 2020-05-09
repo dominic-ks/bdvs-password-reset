@@ -19,12 +19,18 @@ Default settings are to use a 4 digit numerical code which has a life span of 15
 ## Endpoints
 
 The plugin adds two new endpoints to the REST API:
-Also, two new endpoints are added to this namespace.
 
-| Endpoint                              | HTTP Verb | Parameters (**all required**)      |
-| ------------------------------------- | --------- | ---------------------------------- |
-| */wp-json/bdpwr/v1/reset-password*    | POST      |  email                             |
-| */wp-json/bdpwr/v1/set-password*      | POST      |  email <br /> password <br /> code |
+ - Endpoint: */wp-json/bdpwr/v1/reset-password*
+ -- HTTP Verb: POST
+ -- Parameters (**all required**):
+ --- email
+
+ - */wp-json/bdpwr/v1/set-password*
+ -- HTTP Verb: POST
+ -- Parameters (**all required**):
+ --- email
+ --- password
+ --- code
 
 ## Example Requests (jQuery)
 

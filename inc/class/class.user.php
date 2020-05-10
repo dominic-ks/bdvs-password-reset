@@ -78,7 +78,7 @@ class BDPWR_User extends WP_User {
     $code_expiry = $stored_details['expiry'];
     
     if( $code !== $stored_code ) {
-      throw new Exception( 'The rest code provided is not valid.' );
+      throw new Exception( 'The reset code provided is not valid.' );
     }
     
     $expired = true;

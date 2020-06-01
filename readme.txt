@@ -160,3 +160,10 @@ add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry
   return $text;
 });
 `
+
+### Change Log
+ - 0.0.3
+ -- Fixed bug causing 500 error where WordPress TimeZone was set to a manual UTC offsite
+ 
+### Credits
+ - Plugin icon / banner image by <a href="https://unsplash.com/photos/CWL6tTDN31w" target="_blank">Sincerely Media</a>

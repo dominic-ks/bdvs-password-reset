@@ -79,7 +79,7 @@ function bdpwr_get_formatted_date( $time = false ) {
   
   $date = new DateTime();
   $date->setTimestamp( $time );
-  $date->setTimezone( new DateTimeZone( get_option('timezone_string' )));
+  $date->setTimezone( wp_timezone());
 
   return date_format( $date , 'h:i' );
   

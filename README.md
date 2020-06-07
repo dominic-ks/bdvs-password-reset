@@ -5,6 +5,8 @@ A simple plugin that adds a password reset facility to the WordPress REST API us
 1. User requests a password reset. A 4 digit code is emailed to their registered email address
 2. The user enters the code when setting a new password, which is only set if the code is valid and has not expired
 
+It is also possible to check the validity of a code without resetting the password which enables the possibility of setting the password by other means, or having a two stage process for checking the code and resetting the password if desired.
+
 Default settings are to use a 4 digit numerical code which has a life span of 15 minutes, afterwhich a new code would need to be requested.
 
 ## Endpoints
@@ -16,6 +18,7 @@ Also, two new endpoints are added to this namespace.
 | ------------------------------------- | --------- | ---------------------------------- |
 | */wp-json/bdpwr/v1/reset-password*    | POST      |  email                             |
 | */wp-json/bdpwr/v1/set-password*      | POST      |  email <br /> password <br /> code |
+| */wp-json/bdpwr/v1/validate-code*     | POST      |  email <br /> code                 |
 
 ## Example Requests (jQuery)
 
@@ -23,6 +26,7 @@ Also, two new endpoints are added to this namespace.
 
 ```
 $.ajax({
+  url: '/wp-json/bdpwr/v1/reset-password',
   method: 'POST',
   data: {
     email: 'example@example.com',
@@ -40,11 +44,31 @@ $.ajax({
 
 ```
 $.ajax({
+  url: '/wp-json/bdpwr/v1/set-password',
   method: 'POST',
   data: {
     email: 'example@example.com',
     code: '1234',
     password: 'Pa$$word1',
+  },
+  success: function( response ) {
+    console.log( response );
+  },
+  error: function( response ) {
+    console.log( response );
+  },
+});
+```
+
+### Validate Code
+
+```
+$.ajax({
+  url: '/wp-json/bdpwr/v1/validate-code',
+  method: 'POST',
+  data: {
+    email: 'example@example.com',
+    code: '1234',
   },
   success: function( response ) {
     console.log( response );
@@ -79,6 +103,17 @@ $.ajax({
 }
 ```
 
+### Validate Code
+
+```json
+{
+    "data": {
+        "status": 200
+    },
+    "message": "The code supplied is valid."
+}
+```
+
 ## Example Error Responses (JSON)
 
 ### Reset Password
@@ -99,6 +134,18 @@ $.ajax({
 {
     "code": "bad_request",
     "message": "You must request a password reset code before you try to set a new password.",
+    "data": {
+        "status": 500
+    }
+}
+```
+
+### Validate Code
+
+```json
+{
+    "code": "bad_request",
+    "message": "The reset code provided is not valid.",
     "data": {
         "status": 500
     }

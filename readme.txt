@@ -5,7 +5,7 @@ Tags: wp-api, password reset
 Requires at least: 4.2
 Tested up to: 5.4.1
 Requires PHP: 5.3.0
-Stable tag: 0.0.1
+Stable tag: 0.0.4
 License: GNU GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0
 
@@ -13,6 +13,8 @@ A simple plugin that adds a password reset facility to the WordPress REST API us
 
 1. User requests a password reset. A 4 digit code is emailed to their registered email address
 2. The user enters the code when setting a new password, which is only set if the code is valid and has not expired
+
+It is also possible to check the validity of a code without resetting the password which enables the possibility of setting the password by other means, or having a two stage process for checking the code and resetting the password if desired.
 
 Default settings are to use a 4 digit numerical code which has a life span of 15 minutes, afterwhich a new code would need to be requested.
 
@@ -32,13 +34,19 @@ The plugin adds two new endpoints to the REST API:
  --- password
  --- code
 
+ - */wp-json/bdpwr/v1/validate-code*
+ -- HTTP Verb: POST
+ -- Parameters (**all required**):
+ --- email
+ --- code
+
 ## Example Requests (jQuery)
 
 ### Reset Password
 
 `
 $.ajax({
-  url: 'https://your-domain.com/wp-json/bdpwr/v1/reset-password',
+  url: '/wp-json/bdpwr/v1/reset-password',
   method: 'POST',
   data: {
     email: 'example@example.com',
@@ -56,12 +64,31 @@ $.ajax({
 
 `
 $.ajax({
-  url: 'https://your-domain.com/wp-json/bdpwr/v1/set-password',
+  url: '/wp-json/bdpwr/v1/set-password',
   method: 'POST',
   data: {
     email: 'example@example.com',
     code: '1234',
     password: 'Pa$$word1',
+  },
+  success: function( response ) {
+    console.log( response );
+  },
+  error: function( response ) {
+    console.log( response );
+  },
+});
+`
+
+### Validate Code
+
+`
+$.ajax({
+  url: '/wp-json/bdpwr/v1/validate-code',
+  method: 'POST',
+  data: {
+    email: 'example@example.com',
+    code: '1234',
   },
   success: function( response ) {
     console.log( response );
@@ -96,6 +123,17 @@ $.ajax({
 }
 `
 
+### Validate Code
+
+`json
+{
+    "data": {
+        "status": 200
+    },
+    "message": "The code supplied is valid."
+}
+`
+
 ## Example Error Responses (JSON)
 
 ### Reset Password
@@ -116,6 +154,18 @@ $.ajax({
 {
     "code": "bad_request",
     "message": "You must request a password reset code before you try to set a new password.",
+    "data": {
+        "status": 500
+    }
+}
+`
+
+### Validate Code
+
+`json
+{
+    "code": "bad_request",
+    "message": "The reset code provided is not valid.",
     "data": {
         "status": 500
     }
@@ -162,6 +212,8 @@ add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry
 `
 
 ### Change Log
+ - 0.0.4
+ -- Added /validate-code to allow checking a code's validity without actually resetting the password
  - 0.0.3
  -- Fixed bug causing 500 error where WordPress TimeZone was set to a manual UTC offsite
  

@@ -67,6 +67,29 @@ class BDPWR_User extends WP_User {
   
   public function set_new_password( $code , $password ) {
     
+    $code_valid = $this->validate_code( $code );
+    
+    if( ! $code_valid ) {
+      throw new Exception( 'There was a problem validating the code.' );
+    }
+    
+    $this->delete_user_meta( 'bdpws-password-reset-code' );
+    return wp_set_password( $password , $this->ID );
+    
+  }
+  
+  
+  /**
+  *
+  * Validate a code
+  *
+  * @param $code str the code for the password reset
+  * @return bool true on success, false on failure
+  *
+  **/
+  
+  public function validate_code( $code ) {
+    
     $now = strtotime( 'now' );
     $stored_details = $this->get_user_meta( 'bdpws-password-reset-code' );
     
@@ -95,8 +118,7 @@ class BDPWR_User extends WP_User {
       throw new Exception( 'The reset code provided has expired.' );
     }
     
-    $this->delete_user_meta( 'bdpws-password-reset-code' );
-    return wp_set_password( $password , $this->ID );
+    return true;
     
   }
   

@@ -180,35 +180,35 @@ A number of WordPress filters have been added to help customise the process, ple
 `
 add_filter( 'bdpwr_code_length' , function( $length ) {
   return 4;
-});
+}, 10 , 1 );
 `
 
 ### Filter Expiration Time
 `
 add_filter( 'bdpwr_code_expiration_seconds' , function( $seconds ) {
   return 900;
-});
+}, 10 , 1 );
 `
 
 ### Filter the date format used by the plugin to display expiration times
 `
 add_filter( 'bdpwd_date_format' , function( $format ) {
   return 'h:i';
-});
+}, 10 , 1 );
 `
 
 ### Filter the reset email subject
 `
 add_filter( 'bdpwr_code_email_subject' , function( $subject ) {
   return 'Password Reset';
-});
+}, 10 , 1 );
 `
 
 ### Filter the email content
 `
 add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry ) {
   return $text;
-});
+}, 10 , 4 );
 `
 
 ### Change Log

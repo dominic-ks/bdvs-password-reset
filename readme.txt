@@ -3,9 +3,9 @@
 Contributors: dominic_ks
 Tags: wp-api, password reset
 Requires at least: 4.2
-Tested up to: 5.4.1
-Requires PHP: 5.3.0
-Stable tag: 0.0.4
+Tested up to: 5.4.2
+Requires PHP: 5.6.0
+Stable tag: 0.0.6
 License: GNU GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0
 
@@ -103,7 +103,7 @@ $.ajax({
 
 ### Reset Password
 
-`json
+`
 {
     "data": {
         "status": 200
@@ -114,7 +114,7 @@ $.ajax({
 
 ### Set New Password
 
-`json
+`
 {
     "data": {
         "status": 200
@@ -125,7 +125,7 @@ $.ajax({
 
 ### Validate Code
 
-`json
+`
 {
     "data": {
         "status": 200
@@ -138,7 +138,7 @@ $.ajax({
 
 ### Reset Password
 
-`json
+`
 {
     "code": "bad_email",
     "message": "No user found with this email address.",
@@ -150,7 +150,7 @@ $.ajax({
 
 ### Set New Password
 
-`json
+`
 {
     "code": "bad_request",
     "message": "You must request a password reset code before you try to set a new password.",
@@ -162,7 +162,7 @@ $.ajax({
 
 ### Validate Code
 
-`json
+`
 {
     "code": "bad_request",
     "message": "The reset code provided is not valid.",
@@ -212,6 +212,10 @@ add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry
 `
 
 ### Change Log
+ - 0.0.6
+ -- Added support for WP versions earlier than 5.2.0 due to timezone function availability
+ - 0.0.5
+ -- Replaced missing api file
  - 0.0.4
  -- Added /validate-code to allow checking a code's validity without actually resetting the password
  - 0.0.3

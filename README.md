@@ -190,3 +190,13 @@ add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry
   return $text;
 }, 10 , 4 );
 ```
+
+### Change Log
+ - 0.0.6
+ -- Added support for WP versions earlier than 5.2.0 due to timezone function availability
+ - 0.0.5
+ -- Replaced missing api file
+ - 0.0.4
+ -- Added /validate-code to allow checking a code's validity without actually resetting the password
+ - 0.0.3
+ -- Fixed bug causing 500 error where WordPress TimeZone was set to a manual UTC offsite

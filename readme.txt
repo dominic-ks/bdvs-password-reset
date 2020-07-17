@@ -5,9 +5,11 @@ Tags: wp-api, password reset
 Requires at least: 4.2
 Tested up to: 5.4.2
 Requires PHP: 5.6.0
-Stable tag: 0.0.6
+Stable tag: 0.0.7
 License: GNU GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0
+
+== Description ==
 
 A simple plugin that adds a password reset facility to the WordPress REST API using a code. The process is a two step process:
 
@@ -211,7 +213,48 @@ add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry
 }, 10 , 4 );
 `
 
+### Filter maximum attempts allowed to use a reset code, default is 3, -1 for unlimmited
+`
+add_filter( 'bdpwr_max_attempts' , function( $attempts ) {
+  return 3;
+}, 10 , 4 );
+`
+
+### Filter whether to include upper and lowercase letters in the code as well as numbers, default is false
+`
+add_filter( 'bdpwr_include_letters' , function( $include ) {
+  return false;
+}, 10 , 4 );
+`
+
+### Filter the characters to be used when generating a code, you can use any string you want, default is 01234567890
+`
+add_filter( 'bdpwr_selection_string' , function( $string ) {
+  return '01234567890';
+}, 10 , 4 );
+`
+
+### Filter the WP roles allowed to reset their password with this plugin, default is any, example below shows removing administrators
+`
+add_filter( 'bdpwr_allowed_roles' , function( $roles ) {
+  
+  $key = array_search( 'administrator' , $roles );
+  
+  if( $key !== false ) {
+    unset( $roles[ $key ] );
+  }
+  
+  return $roles;
+  
+}, 10 , 1 );
+`
+
 ### Change Log
+ - 0.0.7
+ -- PLEASE READ: SOME DEFAULT BEHAVIOUR HAS CHANGED:
+ -- Added maximum allowed failed attempts to validate a code before automatically expiring it, default has been set to 3
+ -- Added filters to include letters and well as numbers in the reset code as well as allowing you to specify your own string
+ -- Added filters to allow the exclusion of certain roles from being able to reset their password, e.g. if you want to exclude Administrators
  - 0.0.6
  -- Added support for WP versions earlier than 5.2.0 due to timezone function availability
  - 0.0.5
@@ -223,3 +266,23 @@ add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry
  
 ### Credits
  - Plugin icon / banner image by <a href="https://unsplash.com/photos/CWL6tTDN31w" target="_blank">Sincerely Media</a>
+ 
+ == Upgrade Notice ==
+
+  = 0.0.7 =
+  Security enhancements
+ 
+ == Changelog ==
+ = 0.0.7 =
+ * PLEASE READ: SOME DEFAULT BEHAVIOUR HAS CHANGED:
+ * Added maximum allowed failed attempts to validate a code before automatically expiring it, default has been set to 3
+ * Added filters to include letters and well as numbers in the reset code as well as allowing you to specify your own string
+ * Added filters to allow the exclusion of certain roles from being able to reset their password, e.g. if you want to exclude Administrators
+ = 0.0.6 =
+ * Added support for WP versions earlier than 5.2.0 due to timezone function availability
+ = 0.0.5 =
+ * Replaced missing api file
+ = 0.0.4 =
+ * Added /validate-code to allow checking a code's validity without actually resetting the password
+ = 0.0.3 =
+ * Fixed bug causing 500 error where WordPress TimeZone was set to a manual UTC offsite

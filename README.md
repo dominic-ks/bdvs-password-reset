@@ -7,7 +7,7 @@ A simple plugin that adds a password reset facility to the WordPress REST API us
 
 It is also possible to check the validity of a code without resetting the password which enables the possibility of setting the password by other means, or having a two stage process for checking the code and resetting the password if desired.
 
-Default settings are to use a 4 digit numerical code which has a life span of 15 minutes, afterwhich a new code would need to be requested.
+Default settings are to use a 4 digit numerical code which has a life span of 15 minutes, afterwhich a new code would need to be requested. By default a user can attempt to use or validate a code up to 3 times before automatically invalidating it.
 
 ## Endpoints
 
@@ -191,7 +191,47 @@ add_filter( 'bdpwr_code_email_text' , function( $text , $email , $code , $expiry
 }, 10 , 4 );
 ```
 
+### Filter maximum attempts allowed to use a reset code, default is 3, -1 for unlimmited
+```
+add_filter( 'bdpwr_max_attempts' , function( $attempts ) {
+  return 3;
+}, 10 , 4 );
+```
+
+### Filter whether to include upper and lowercase letters in the code as well as numbers, default is false
+```
+add_filter( 'bdpwr_include_letters' , function( $include ) {
+  return false;
+}, 10 , 4 );
+```
+
+### Filter the characters to be used when generating a code, you can use any string you want, default is 01234567890
+`
+add_filter( 'bdpwr_selection_string' , function( $string ) {
+  return '01234567890';
+}, 10 , 4 );
+```
+
+### Filter the WP roles allowed to reset their password with this plugin, default is any, example below shows removing administrators
+```
+add_filter( 'bdpwr_allowed_roles' , function( $roles ) {
+  
+  $key = array_search( 'administrator' , $roles );
+  
+  if( $key !== false ) {
+    unset( $roles[ $key ] );
+  }
+  
+  return $roles;
+  
+}, 10 , 1 );
+```
+
 ### Change Log
+ - 0.0.7
+ -- Added maximum allowed failed attempts to validate a code before automatically expiring it, default has been set to 3
+ -- Added filters to include letters and well as numbers in the reset code as well as allowing you to specify your own string
+ -- Added filters to allow the exclusion of certain roles from being able to reset their password, e.g. if you want to exclude Administrators
  - 0.0.6
  -- Added support for WP versions earlier than 5.2.0 due to timezone function availability
  - 0.0.5

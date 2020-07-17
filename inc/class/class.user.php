@@ -41,6 +41,23 @@ class BDPWR_User extends WP_User {
   
   public function send_reset_code() {
     
+    $allowed_roles = bdpwr_get_allowed_roles();
+    $allowed = false;
+    
+    foreach( $allowed_roles as $role ) {
+      
+      if( ! in_array( $role , (array) $this->roles )) {
+        continue;
+      }
+      
+      $allowed = true;
+        
+    }
+    
+    if( ! $allowed ) {
+      throw new Exception( 'You cannot request a password reset for a user with this role.' );
+    }
+    
     $email = $this->get_email_address();
     $code = bdpwr_generate_4_digit_code();
     $expiration = bdpwr_get_new_code_expiration_time();
@@ -48,6 +65,7 @@ class BDPWR_User extends WP_User {
     $this->save_user_meta( 'bdpws-password-reset-code' , array(
       'code' => $code,
       'expiry' => $expiration,
+      'attempt' => 0,
     ));
     
     return bdpwr_send_password_reset_code_email( $email , $code , $expiration );
@@ -99,9 +117,40 @@ class BDPWR_User extends WP_User {
     
     $stored_code = $stored_details['code'];
     $code_expiry = $stored_details['expiry'];
+    $attempt = ( isset( $stored_details['attempt'] )) ? $stored_details['attempt'] : 0;
+    $attempt++;
+    $attempts_string = '';
+    
+    /**
+    *
+    * Filter the maximum attempts that can be made on a given code. Set to -1 for unlimmited.
+    *
+    * @param $attempts int the maximum number of failed attempts allowed before a code is invalidated
+    *
+    **/
+    
+    $attempts_max = apply_filters( 'bdpwr_max_attempts' , 3 );
+    
+    if( $code !== $stored_code && $attempts_max !== -1 ) {
+      
+      $stored_details['attempt'] = $attempt;
+      $remaining_attempts = $attempts_max - $attempt;
+    
+      $this->save_user_meta( 'bdpws-password-reset-code' , $stored_details );
+      
+      $attempts_string = 'You have ' . $remaining_attempts . ' attempts remaining.';
+      
+      if( $remaining_attempts <= 0 ) {
+        $attempts_string = 'You have used the maximum number of attempts allowed. You must request a new code.';
+        $this->delete_user_meta( 'bdpws-password-reset-code' );
+      }
+              
+      throw new Exception( 'The reset code provided is not valid. ' . $attempts_string );
+      
+    }
     
     if( $code !== $stored_code ) {
-      throw new Exception( 'The reset code provided is not valid.' );
+      throw new Exception( 'The reset code provided is not valid.' );      
     }
     
     $expired = true;
@@ -115,6 +164,7 @@ class BDPWR_User extends WP_User {
     }
     
     if( ! $expired ) {
+      $this->delete_user_meta( 'bdpws-password-reset-code' );
       throw new Exception( 'The reset code provided has expired.' );
     }
     

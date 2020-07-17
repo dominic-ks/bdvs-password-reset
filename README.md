@@ -206,7 +206,7 @@ add_filter( 'bdpwr_include_letters' , function( $include ) {
 ```
 
 ### Filter the characters to be used when generating a code, you can use any string you want, default is 01234567890
-`
+```
 add_filter( 'bdpwr_selection_string' , function( $string ) {
   return '01234567890';
 }, 10 , 4 );

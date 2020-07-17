@@ -19,8 +19,31 @@ function bdpwr_generate_4_digit_code() {
   *
   **/
   
-  $length = apply_filters( 'bdpwr_code_length' , 4 );  
-  return substr( str_shuffle( '0123456789' ) , 0 , $length );
+  $length = apply_filters( 'bdpwr_code_length' , 4 );
+  
+  /**
+  *
+  * Filter whether or not to include letters in the code
+  *
+  * @param $include boolean
+  *
+  **/
+  
+  $include_letters = apply_filters( 'bdpwr_include_letters' , false );
+  
+  $selection_string = ( $include_letters ) ? '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' : '0123456789';
+  
+  /**
+  *
+  * Filter the selection string to use any characters you like
+  *
+  * @param $string str the string to select a code from
+  *
+  **/
+  
+  $selection_string = apply_filters( 'bdpwr_selection_string' , $selection_string );
+  
+  return substr( str_shuffle( $selection_string ) , 0 , $length );
   
 }
 
@@ -82,6 +105,37 @@ function bdpwr_get_formatted_date( $time = false ) {
   $date->setTimezone( wp_timezone());
 
   return date_format( $date , 'h:i' );
+  
+}
+
+
+/**
+*
+* Get a list of the roles allowed to reset their password with this plugin
+*
+* @param void
+* @return arr an array of role slugs
+*
+**/
+
+function bdpwr_get_allowed_roles() {
+  
+  $all_roles = wp_roles()->roles;
+  $roles_array = array();
+  
+  foreach( $all_roles as $slug => $role ) {
+    $roles_array[] = $slug;
+  }
+  
+  /**
+  *
+  * Filter the roles allowed to use this plugin to reset a password
+  *
+  * @param $roles arr the array of allowed roles
+  *
+  **/
+  
+  return apply_filters( 'bdpwr_allowed_roles' , $roles_array );
   
 }
 

@@ -7,7 +7,8 @@
 **/
 
 add_action( 'rest_api_init', function () {  
-  register_rest_route( 'bdpwr/v1' , '/reset-password' , array(
+  $route_namespace = apply_filters( 'bdpwr_route_namespace' , 'bdpwr/v1' );
+  register_rest_route( $route_namespace , '/reset-password' , array(
 
     'methods' => 'POST',
 

@@ -1,6 +1,6 @@
 === Password Reset with Code for WordPress REST API ===
 
-Contributors: dominic_ks
+Contributors: dominic_ks, wpamitkumar
 Tags: wp-api, password reset
 Requires at least: 4.2
 Tested up to: 5.4.2
@@ -246,6 +246,13 @@ add_filter( 'bdpwr_allowed_roles' , function( $roles ) {
   
   return $roles;
   
+}, 10 , 1 );
+`
+
+### Filter to add custom namespace for REST API
+`
+add_filter( 'bdpwr_route_namespace' , function( $route_namespace ) {
+  return 'xyz/v1';
 }, 10 , 1 );
 `
 

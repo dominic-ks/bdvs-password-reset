@@ -227,6 +227,13 @@ add_filter( 'bdpwr_allowed_roles' , function( $roles ) {
 }, 10 , 1 );
 ```
 
+### Filter to add custom namespace for REST API
+```
+add_filter( 'bdpwr_route_namespace' , function( $route_namespace ) {
+  return 'xyz/v1';
+}, 10 , 1 );
+```
+
 ### Change Log
  - 0.0.7
  -- Added maximum allowed failed attempts to validate a code before automatically expiring it, default has been set to 3

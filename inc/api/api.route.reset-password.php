@@ -8,38 +8,20 @@
 
 add_action( 'rest_api_init', function () {  
   $route_namespace = apply_filters( 'bdpwr_route_namespace' , 'bdpwr/v1' );
-  register_rest_route( $route_namespace , '/reset-password' , array(
+  register_rest_route( $route_namespace , '/reset-password' , array(  
 
     'methods' => 'POST',
 
     'callback' => function( $data ) {
-
-      if ( empty( $data['email'] ) || $data['email'] === '' ) {
-        return new WP_Error( 'no_email' , 'You must provide an email address.' , array( 'status' => 400 ));
-      }
-
-      $exists = email_exists( $data['email'] );
-
-      if( ! $exists ) {
-        return new WP_Error( 'bad_email' , 'No user found with this email address.' , array( 'status' => 500 ));
-      }
-      
       try {
-        $user = bdpwr_get_user( $exists );
-        $user->send_reset_code();
-      }
+        Reset_Password_Action::handle( $data['email'] );
+      } 
       
       catch( Exception $e ) {
-        return new WP_Error( 'bad_request' , $e->getMessage() , array( 'status' => 500 ));
+        return WP_Error_Message_Factory::handle( $e , Error_Message_Registry::class );
       }
 
-      return array(
-        'data' => array(
-          'status' => 200,
-        ),
-        'message' => 'A password reset email has been sent to your email address.',
-      );
-
+      return Response_Repository::handle( 200 , 'A password reset email has been sent to your email address.' );
     },
 
     'permission_callback' => function() {

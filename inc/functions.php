@@ -98,13 +98,13 @@ function bdpwr_get_formatted_date( $time = false ) {
   *
   **/
   
-  $format = apply_filters( 'bdpwd_date_format' , 'h:i' );
+  $format = apply_filters( 'bdpwd_date_format' , 'H:i' );
   
   $date = new DateTime();
   $date->setTimestamp( $time );
   $date->setTimezone( wp_timezone());
 
-  return date_format( $date , 'h:i' );
+  return date_format( $date , $format );
   
 }
 

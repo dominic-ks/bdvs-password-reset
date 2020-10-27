@@ -195,7 +195,7 @@ add_filter( 'bdpwr_code_expiration_seconds' , function( $seconds ) {
 ### Filter the date format used by the plugin to display expiration times
 `
 add_filter( 'bdpwd_date_format' , function( $format ) {
-  return 'h:i';
+  return 'H:i';
 }, 10 , 1 );
 `
 

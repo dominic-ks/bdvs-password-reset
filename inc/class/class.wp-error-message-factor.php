@@ -1,6 +1,6 @@
 <?php
 
-class WP_Error_Message_Factory {
+class BDPWR_WP_Error_Message_Factory {
   public static function handle( Exception $e , string $registry ) {
     $errorMessage = $e->getMessage();
     $messages = $registry::ERROR_MESSAGES;

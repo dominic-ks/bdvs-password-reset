@@ -1,6 +1,6 @@
 <?php
 
-class Reset_Password_Action
+class BDPWR_Reset_Password_Action
 {
   public static function handle( array $data ) {
     static::validateEmail( $data );

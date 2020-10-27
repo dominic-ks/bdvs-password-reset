@@ -1,6 +1,6 @@
 <?php
 
-class Response_Repository {
+class BDPWR_Response_Repository {
   public static function handle( string $status , string $message ) {
     return array(
       'data' => array(

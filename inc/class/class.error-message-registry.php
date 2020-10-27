@@ -1,6 +1,6 @@
 <?php
 
-class Error_Message_Registry
+class BDPWR_Error_Message_Registry
 {
   public const ERROR_MESSAGES = array(
     'no_email' => 'You must provide an email address.',

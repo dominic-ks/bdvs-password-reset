@@ -3,9 +3,9 @@
 Contributors: dominic_ks, wpamitkumar
 Tags: wp-api, password reset
 Requires at least: 4.2
-Tested up to: 5.4.2
+Tested up to: 5.5.3
 Requires PHP: 5.6.0
-Stable tag: 0.0.7
+Stable tag: 0.0.8
 License: GNU GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0
 
@@ -280,6 +280,10 @@ add_filter( 'bdpwr_route_namespace' , function( $route_namespace ) {
   Security enhancements
  
  == Changelog ==
+ = 0.0.8 =
+ * fixed minor typos in docs
+ * added filter to use custom namespace
+ * fixed bug with time format filter
  = 0.0.7 =
  * PLEASE READ: SOME DEFAULT BEHAVIOUR HAS CHANGED:
  * Added maximum allowed failed attempts to validate a code before automatically expiring it, default has been set to 3

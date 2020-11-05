@@ -32,13 +32,10 @@ Plugin support is provided via the plugin support page on wordpress.org:
 If you find any issues or have ideas for the plugin, please feel free to raise an issue here on GitHub.
 
 ## Contributions
-Contributors are definitely welcome. A few general guidelines:
- - If on doesn't exist, create an issue here on GitHub with the proposed changes.
- - Use the relevant GitHub issue to discuss and agree what will be done
- - Generally please follow the [WordPress coding standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/) and try and stick to the general layout and organisation of the existing code in the plugin
+Contributors are definitely welcome. Please checkout the [CONTRIBUTING.md](https://github.com/dominic-ks/bdvs-password-reset/blob/master/CONTRIBUTING.md) file for info and guidelines.
 
 ## Change Log
- - 0.0.8 =
+ - 0.0.8
    - fixed minor typos in docs
    - added filter to use custom namespace
    - fixed bug with time format filter

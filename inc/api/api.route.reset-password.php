@@ -12,9 +12,9 @@ add_action( 'rest_api_init', function () {
 
     'methods' => 'POST',
 
-    'callback' => function( $data ) {
+    'callback' => function( WP_REST_Request $data ) {
       try {
-        BDPWR_Reset_Password_Action::handle( $data );
+        BDPWR_Reset_Password_Action::handle( $data->get_body_params() );
       } 
       
       catch( Exception $e ) {

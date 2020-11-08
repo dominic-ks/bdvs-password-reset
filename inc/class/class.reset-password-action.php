@@ -8,9 +8,7 @@ class BDPWR_Reset_Password_Action
   }
 
   protected static function validateEmail( array $data ) {
-    $email = $data['email'];
-    
-    if ( empty( $email ) || $email === '' ) {
+    if ( empty( $data['email'] ) || $data['email'] === '' ) {
       throw new InvalidArgumentException( 'no_email' , 400 );
     }
   }

@@ -11,8 +11,7 @@ Default settings are to use a 4 digit numerical code which has a life span of 15
 
 ## Endpoints
 
-The plugin adds two new endpoints to the REST API:
-Also, two new endpoints are added to this namespace.
+The plugin adds three new endpoints to the REST API:
 
 | Endpoint                              | HTTP Verb | Parameters (**all required**)      |
 | ------------------------------------- | --------- | ---------------------------------- |

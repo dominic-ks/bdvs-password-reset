@@ -5,7 +5,7 @@ Tags: wp-api, password reset
 Requires at least: 4.2
 Tested up to: 5.5.3
 Requires PHP: 5.6.0
-Stable tag: 0.0.8
+Stable tag: 0.0.9
 License: GNU GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0
 

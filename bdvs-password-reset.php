@@ -1,5 +1,4 @@
 <?php
-
 /**
 *
 * @wordpress-plugin
@@ -7,7 +6,7 @@
 * Plugin Name: REST API Password Reset with Code
 * Plugin URI: https://www.bedevious.co.uk/
 * Description: Allow users to reset their password using a random 4 digit code via the REST API
-* Version: 0.0.8
+* Version: 0.0.9
 * Author: Be Devious Web Development
 * Author URI: https://www.bedevious.co.uk/
 * License: GNU GPLv3

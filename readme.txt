@@ -280,6 +280,8 @@ add_filter( 'bdpwr_route_namespace' , function( $route_namespace ) {
   Security enhancements
  
  == Changelog ==
+ = 0.0.9 =
+ * fixed invalid plugin header issue
  = 0.0.8 =
  * fixed minor typos in docs
  * added filter to use custom namespace

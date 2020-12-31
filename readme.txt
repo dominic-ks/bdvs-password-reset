@@ -255,21 +255,6 @@ add_filter( 'bdpwr_route_namespace' , function( $route_namespace ) {
   return 'xyz/v1';
 }, 10 , 1 );
 `
-
-### Change Log
- - 0.0.7
- -- PLEASE READ: SOME DEFAULT BEHAVIOUR HAS CHANGED:
- -- Added maximum allowed failed attempts to validate a code before automatically expiring it, default has been set to 3
- -- Added filters to include letters and well as numbers in the reset code as well as allowing you to specify your own string
- -- Added filters to allow the exclusion of certain roles from being able to reset their password, e.g. if you want to exclude Administrators
- - 0.0.6
- -- Added support for WP versions earlier than 5.2.0 due to timezone function availability
- - 0.0.5
- -- Replaced missing api file
- - 0.0.4
- -- Added /validate-code to allow checking a code's validity without actually resetting the password
- - 0.0.3
- -- Fixed bug causing 500 error where WordPress TimeZone was set to a manual UTC offsite
  
 ### Credits
  - Plugin icon / banner image by <a href="https://unsplash.com/photos/CWL6tTDN31w" target="_blank">Sincerely Media</a>

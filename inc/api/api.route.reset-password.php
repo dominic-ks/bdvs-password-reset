@@ -12,34 +12,16 @@ add_action( 'rest_api_init', function () {
 
     'methods' => 'POST',
 
-    'callback' => function( $data ) {
-
-      if ( empty( $data['email'] ) || $data['email'] === '' ) {
-        return new WP_Error( 'no_email' , 'You must provide an email address.' , array( 'status' => 400 ));
-      }
-
-      $exists = email_exists( $data['email'] );
-
-      if( ! $exists ) {
-        return new WP_Error( 'bad_email' , 'No user found with this email address.' , array( 'status' => 500 ));
-      }
-      
+    'callback' => function( WP_REST_Request $data ) {
       try {
-        $user = bdpwr_get_user( $exists );
-        $user->send_reset_code();
-      }
+        BDPWR_Reset_Password_Action::handle( $data->get_body_params() );
+      } 
       
       catch( Exception $e ) {
-        return new WP_Error( 'bad_request' , $e->getMessage() , array( 'status' => 500 ));
+        return BDPWR_WP_Error_Message_Factory::handle( $e , BDPWR_Error_Message_Registry::class );
       }
 
-      return array(
-        'data' => array(
-          'status' => 200,
-        ),
-        'message' => 'A password reset email has been sent to your email address.',
-      );
-
+      return BDPWR_Response_Repository::handle( 200 , 'A password reset email has been sent to your email address.' );
     },
 
     'permission_callback' => function() {

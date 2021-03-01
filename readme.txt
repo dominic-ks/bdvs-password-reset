@@ -267,6 +267,7 @@ add_filter( 'bdpwr_route_namespace' , function( $route_namespace ) {
  == Changelog ==
  = 0.0.10 =
  * relocated email send function
+ * added translation functions, should be translation ready! get in contact to get involved!
  = 0.0.9 =
  * fixed invalid plugin header issue
  = 0.0.8 =

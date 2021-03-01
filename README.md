@@ -34,6 +34,8 @@ If you find any issues or have ideas for the plugin, please feel free to raise a
 Contributors are definitely welcome. Please checkout the [CONTRIBUTING.md](https://github.com/dominic-ks/bdvs-password-reset/blob/master/CONTRIBUTING.md) file for info and guidelines.
 
 ## Change Log
+ - 0.0.10
+   - relocated email send function
  - 0.0.9
    - fixed invalid plugin header issue
  - 0.0.8

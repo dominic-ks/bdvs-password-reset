@@ -22,7 +22,7 @@ class BDPWR_User extends WP_User {
   public function __construct( $user_id = false ) {
     
     if( ! $user_id ) {
-      throw new Exception( 'You must provide a $user_id to initiate a BDPWR_User object.' );
+      throw new Exception( __( 'You must provide a $user_id to initiate a BDPWR_User object.' , 'bdvs-password-reset' ));
     }
     
     parent::__construct( $user_id );
@@ -55,7 +55,7 @@ class BDPWR_User extends WP_User {
     }
     
     if( ! $allowed ) {
-      throw new Exception( 'You cannot request a password reset for a user with this role.' );
+      throw new Exception( __( 'You cannot request a password reset for a user with this role.' , 'bdvs-password-reset' ));
     }
     
     $email = $this->get_email_address();
@@ -88,7 +88,7 @@ class BDPWR_User extends WP_User {
     $code_valid = $this->validate_code( $code );
     
     if( ! $code_valid ) {
-      throw new Exception( 'There was a problem validating the code.' );
+      throw new Exception( __( 'There was a problem validating the code.' , 'bdvs-password-reset' ));
     }
     
     $this->delete_user_meta( 'bdpws-password-reset-code' );
@@ -112,7 +112,7 @@ class BDPWR_User extends WP_User {
     $stored_details = $this->get_user_meta( 'bdpws-password-reset-code' );
     
     if( ! $stored_details ) {
-      throw new Exception( 'You must request a password reset code before you try to set a new password.' );
+      throw new Exception( __( 'You must request a password reset code before you try to set a new password.' , 'bdvs-password-reset' ));
     }
     
     $stored_code = $stored_details['code'];
@@ -138,19 +138,23 @@ class BDPWR_User extends WP_User {
     
       $this->save_user_meta( 'bdpws-password-reset-code' , $stored_details );
       
-      $attempts_string = 'You have ' . $remaining_attempts . ' attempts remaining.';
+      $attempts_string = sprintf(
+        /* translators: %s: Number of remaining attempts */
+        __( 'You have %s attempts remaining.' , 'bdvs-password-reset' ), 
+        $remaining_attempts 
+      );
       
       if( $remaining_attempts <= 0 ) {
-        $attempts_string = 'You have used the maximum number of attempts allowed. You must request a new code.';
+        $attempts_string = __( 'You have used the maximum number of attempts allowed. You must request a new code.' , 'bdvs-password-reset' );
         $this->delete_user_meta( 'bdpws-password-reset-code' );
       }
               
-      throw new Exception( 'The reset code provided is not valid. ' . $attempts_string );
+      throw new Exception( __( 'The reset code provided is not valid. ' , 'bdvs-password-reset' ) . $attempts_string );
       
     }
     
     if( $code !== $stored_code ) {
-      throw new Exception( 'The reset code provided is not valid.' );      
+      throw new Exception( __( 'The reset code provided is not valid.' , 'bdvs-password-reset' ));      
     }
     
     $expired = true;
@@ -165,7 +169,7 @@ class BDPWR_User extends WP_User {
     
     if( ! $expired ) {
       $this->delete_user_meta( 'bdpws-password-reset-code' );
-      throw new Exception( 'The reset code provided has expired.' );
+      throw new Exception( __( 'The reset code provided has expired.' , 'bdvs-password-reset' ));
     }
     
     return true;

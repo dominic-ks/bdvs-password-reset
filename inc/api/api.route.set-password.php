@@ -15,21 +15,21 @@ add_action( 'rest_api_init', function () {
     'callback' => function( $data ) {
 
       if ( empty( $data['email'] ) || $data['email'] === '' ) {
-        return new WP_Error( 'no_email' , 'You must provide an email address.' , array( 'status' => 400 ));
+        return new WP_Error( 'no_email' , __( 'You must provide an email address.' , 'bdvs-password-reset' ) , array( 'status' => 400 ));
       }
 
       if( empty( $data['code'] ) || $data['code'] === '' ) {
-        return new WP_Error( 'no_code' , 'You must provide a code.' , array( 'status' => 400 ) );
+        return new WP_Error( 'no_code' , __( 'You must provide a code.' , 'bdvs-password-reset' ) , array( 'status' => 400 ) );
       }
 
       if( empty( $data['password'] ) || $data['password'] === '' ) {
-        return new WP_Error( 'no_code' , 'You must provide a new password.' , array( 'status' => 400 ) );
+        return new WP_Error( 'no_code' , __( 'You must provide a new password.' , 'bdvs-password-reset' ) , array( 'status' => 400 ) );
       }
 
       $exists = email_exists( $data['email'] );
 
       if( ! $exists ) {
-        return new WP_Error( 'bad_email' , 'No user found with this email address.' , array( 'status' => 500 ));
+        return new WP_Error( 'bad_email' , __( 'No user found with this email address.' , 'bdvs-password-reset' ) , array( 'status' => 500 ));
       }
       
       try {
@@ -45,7 +45,7 @@ add_action( 'rest_api_init', function () {
         'data' => array(
           'status' => 200,
         ),
-        'message' => 'Password reset successfully.',
+        'message' => __( 'Password reset successfully.' , 'bdvs-password-reset' ),
       );
 
     },

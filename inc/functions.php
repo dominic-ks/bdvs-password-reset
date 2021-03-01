@@ -156,6 +156,67 @@ function bdpwr_get_user( $user_id = false ) {
 
 /**
 *
+* Send a password reset code email
+*
+* @param $email str the email address to send to
+* @param $code the code to send
+* @param $expiry int the time that the code will expire
+* @return bool true on success false on failure
+*
+**/
+
+function bdpwr_send_password_reset_code_email( $email = false , $code = false , $expiry = 0 ) {
+  
+  if( ! $email ) {
+    throw new Exception( __( 'An email address is required for the reset code email.' , 'bdvs-password-reset' ));
+  }
+  
+  if( ! $code ) {
+    throw new Exception( __( 'No code was provided for the password reset email.' , 'bdvs-password-reset' ));
+  }
+  
+  ob_start(); ?>
+
+  A password reset was requested for your account and your password reset code is <?php echo $code; ?>.
+
+  <?php if( $expiry !== 0 ) { ?>
+    Please note that this code will expire at <?php echo bdpwr_get_formatted_date( $expiry ); ?>.
+  <?php } ?>
+
+  <?php
+  $text = ob_get_contents();
+  if( $text ) { ob_end_clean(); }
+  
+  /**
+  *
+  * Filter the subject of the email
+  *
+  * @param $subject str the subject of the email
+  *
+  **/
+  
+  $subject = apply_filters( 'bdpwr_code_email_subject' , 'Password Reset' );
+  
+  /**
+  *
+  * Filter the body of the email
+  *
+  * @param $text str the content of the email
+  * @param $email str the email address being sent to
+  * @param $code the code being sent
+  * @param $expiry int the unix timestamp for the code's expiry
+  *
+  **/
+  
+  $text = apply_filters( 'bdpwr_code_email_text' , $text , $email , $code , $expiry );
+  
+  return wp_mail( $email , $subject , $text );
+  
+}
+
+
+/**
+*
 * BACKWARDS COMPATIBILITY FILLS
 *
 * The following declares new functions available from WP 5.3.0

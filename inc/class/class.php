@@ -1,3 +1,3 @@
 <?php
 
-include_once( 'class.user.php' );
+include_once( __DIR__ . '/class.user.php' );

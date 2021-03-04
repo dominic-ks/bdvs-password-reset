@@ -23,4 +23,4 @@
 *
 **/
 
-include_once( 'inc/inc.php' );
+include_once( __DIR__ . '/inc/inc.php' );

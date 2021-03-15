@@ -2,10 +2,10 @@
 
 Contributors: dominic_ks, wpamitkumar
 Tags: wp-api, password reset
-Requires at least: 4.2
+Requires at least: 4.6
 Tested up to: 5.6.2
 Requires PHP: 5.4
-Stable tag: 0.0.12
+Stable tag: 0.0.13
 License: GNU GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0
 
@@ -237,15 +237,15 @@ add_filter( 'bdpwr_selection_string' , function( $string ) {
 ### Filter the WP roles allowed to reset their password with this plugin, default is any, example below shows removing administrators
 `
 add_filter( 'bdpwr_allowed_roles' , function( $roles ) {
-  
+
   $key = array_search( 'administrator' , $roles );
-  
+
   if( $key !== false ) {
     unset( $roles[ $key ] );
   }
-  
+
   return $roles;
-  
+
 }, 10 , 1 );
 `
 
@@ -255,16 +255,18 @@ add_filter( 'bdpwr_route_namespace' , function( $route_namespace ) {
   return 'xyz/v1';
 }, 10 , 1 );
 `
- 
+
 ### Credits
  - Plugin icon / banner image by <a href="https://unsplash.com/photos/CWL6tTDN31w" target="_blank">Sincerely Media</a>
- 
+
  == Upgrade Notice ==
 
   = 0.0.7 =
   Security enhancements
- 
+
  == Changelog ==
+ = 0.0.13 =
+ * updated to min version 4.6 to allow translations
  = 0.0.12 =
  * resolved file include errors
  = 0.0.11 =

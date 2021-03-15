@@ -34,6 +34,8 @@ If you find any issues or have ideas for the plugin, please feel free to raise a
 Contributors are definitely welcome. Please checkout the [CONTRIBUTING.md](https://github.com/dominic-ks/bdvs-password-reset/blob/master/CONTRIBUTING.md) file for info and guidelines.
 
 ## Change Log
+ - 0.0.13
+   - updated to min version 4.6 to allow translations
  - 0.0.12
    - resolved file include errors
  - 0.0.11

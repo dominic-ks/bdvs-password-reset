@@ -34,6 +34,9 @@ If you find any issues or have ideas for the plugin, please feel free to raise a
 Contributors are definitely welcome. Please checkout the [CONTRIBUTING.md](https://github.com/dominic-ks/bdvs-password-reset/blob/master/CONTRIBUTING.md) file for info and guidelines.
 
 ## Change Log
+ - 0.0.15
+   - updated compatibility to 6.1.1
+   - added github actions to auto-deploy to wordpress.org
  - 0.0.14
    - updated compatibility to 5.9.3
  - 0.0.13

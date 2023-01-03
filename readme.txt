@@ -3,9 +3,9 @@
 Contributors: dominic_ks, wpamitkumar
 Tags: wp-api, password reset
 Requires at least: 4.6
-Tested up to: 5.6.2
+Tested up to: 5.9.3
 Requires PHP: 5.4
-Stable tag: 0.0.13
+Stable tag: 0.0.14
 License: GNU GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0
 
@@ -265,6 +265,8 @@ add_filter( 'bdpwr_route_namespace' , function( $route_namespace ) {
   Security enhancements
 
  == Changelog ==
+ = 0.0.14 =
+ * updated compatibility to 5.9.3
  = 0.0.13 =
  * updated to min version 4.6 to allow translations
  = 0.0.12 =

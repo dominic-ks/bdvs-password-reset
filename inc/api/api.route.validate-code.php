@@ -25,7 +25,7 @@ add_action( 'rest_api_init', function () {
       $exists = email_exists( $data['email'] );
 
       if( ! $exists ) {
-        return new WP_Error( 'bad_email' , __( 'No user found with this email address.' , 'bdvs-password-reset' ) , array( 'status' => 404 ));
+        return new WP_Error( 'bad_email' , __( 'No user found with this email address.' , 'bdvs-password-reset' ) , array( 'status' => 500 ));
       }
       
       try {

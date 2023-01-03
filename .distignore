@@ -1,0 +1,10 @@
+/.git
+/.github
+/.wordpress-org
+
+.distignore
+.git
+.gitignore
+
+CONTRIBUTING.md
+README.md

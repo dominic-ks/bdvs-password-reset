@@ -1,3 +1,38 @@
+# IMPORTANT NOTICE
+
+This plugin is currently unavailable in the WordPress.org plugin repo due to a reported security vulnerability. 
+
+A patch for this plugin will be released very soon, in the meantime, we strongly suggest you use the following filters in a custom plugin or in your theme's functions.php file to enhace the security of your site until an update is released:
+
+1. Disable password resets using this plugin for administrators, you may also want to consider other roles with elevated privileges:
+```
+add_filter( 'bdpwr_allowed_roles' , function( $roles ) {
+
+  $key = array_search( 'administrator' , $roles );
+
+  if( $key !== false ) {
+    unset( $roles[ $key ] );
+  }
+
+  return $roles;
+
+}, 10 , 1 );
+```
+
+2. Increase the length of the code that is generated, you may need to consider your UI or implementation to ensure you can accomodate the longer code:
+```
+add_filter( 'bdpwr_code_length' , function( $length ) {
+  return 8;
+}, 10 , 1 );
+```
+
+3. Include more characters in the code that you send to users, again, you may need to consider your UI or implementation to ensure you can accomodate the additional characters:
+```
+add_filter( 'bdpwr_selection_string' , function( $string ) {
+  return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"£$%^&*()_+-={}[]:@~;\'#<>?,./|\\';
+}, 10 , 4 );
+```
+
 # Password Reset with Code for WordPress REST API
 
 A simple plugin that adds a password reset facility to the WordPress REST API using a code. The process is a two step process:

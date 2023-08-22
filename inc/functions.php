@@ -112,7 +112,13 @@ function bdpwr_get_allowed_roles() {
 	$roles_array = array();
 
 	foreach ( $all_roles as $slug => $role ) {
+
+		if( $slug === 'administrator' ) {
+			continue;
+		}
+
 		$roles_array[] = $slug;
+		
 	}
 
 	/**

@@ -20,6 +20,7 @@ class BDPWR_User extends WP_User {
 	public function __construct( $user_id = false ) {
 
 		if ( ! $user_id ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			throw new Exception( __( 'You must provide a $user_id to initiate a BDPWR_User object.', 'bdvs-password-reset' ) );
 		}
 
@@ -51,6 +52,7 @@ class BDPWR_User extends WP_User {
 		}
 
 		if ( ! $allowed ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			throw new Exception( __( 'You cannot request a password reset for a user with this role.', 'bdvs-password-reset' ) );
 		}
 
@@ -107,6 +109,7 @@ class BDPWR_User extends WP_User {
 		$stored_details = $this->get_user_meta( 'bdpws-password-reset-code' );
 
 		if ( ! $stored_details ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			throw new Exception( __( 'You must request a password reset code before you try to set a new password.', 'bdvs-password-reset' ) );
 		}
 
@@ -139,15 +142,18 @@ class BDPWR_User extends WP_User {
 			);
 
 			if ( $remaining_attempts <= 0 ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				$attempts_string = __( 'You have used the maximum number of attempts allowed. You must request a new code.', 'bdvs-password-reset' );
 				$this->delete_user_meta( 'bdpws-password-reset-code' );
 			}
 
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			throw new Exception( __( 'The reset code provided is not valid. ', 'bdvs-password-reset' ) . $attempts_string );
 
 		}
 
 		if ( $code !== $stored_code ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			throw new Exception( __( 'The reset code provided is not valid.', 'bdvs-password-reset' ) );
 		}
 

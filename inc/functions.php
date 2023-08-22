@@ -152,10 +152,12 @@ function bdpwr_get_user( $user_id = false ) {
 function bdpwr_send_password_reset_code_email( $email = false, $code = false, $expiry = 0 ) {
 
 	if ( ! $email ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		throw new Exception( __( 'An email address is required for the reset code email.', 'bdvs-password-reset' ) );
 	}
 
 	if ( ! $code ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		throw new Exception( __( 'No code was provided for the password reset email.', 'bdvs-password-reset' ) );
 	}
 

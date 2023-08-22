@@ -159,10 +159,12 @@ function bdpwr_send_password_reset_code_email( $email = false, $code = false, $e
 
 	ob_start(); ?>
 
-	A password reset was requested for your account and your password reset code is <?php echo $code; ?>.
+	A password reset was requested for your account and your password reset code is:<br /><br />
+	
+	<?php echo $code; ?>
 
 	<?php if ( $expiry !== 0 ) { ?>
-	Please note that this code will expire at <?php echo bdpwr_get_formatted_date( $expiry ); ?>.
+		<br /><br />Please note that this code will expire at <?php echo bdpwr_get_formatted_date( $expiry ); ?>.
 	<?php } ?>
 
 	<?php

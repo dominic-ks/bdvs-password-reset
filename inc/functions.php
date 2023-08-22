@@ -18,17 +18,7 @@ function bdpwr_generate_4_digit_code() {
 	*/
 
 	$length = apply_filters( 'bdpwr_code_length', 8 );
-
-	/**
-	*
-	* Filter whether or not to include letters in the code
-	*
-	* @param $include boolean
-	*/
-
-	$include_letters = apply_filters( 'bdpwr_include_letters', false );
-
-	$selection_string = ( $include_letters ) ? '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' : '0123456789';
+	$selection_string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!£$%^&*()_+-={}[]@~\#<>?/|\\';
 
 	/**
 	*
@@ -114,7 +104,7 @@ function bdpwr_get_allowed_roles() {
 	foreach ( $all_roles as $slug => $role ) {
 
 		if( $slug === 'administrator' ) {
-			continue;
+			// continue;
 		}
 
 		$roles_array[] = $slug;

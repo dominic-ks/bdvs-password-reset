@@ -1,48 +1,23 @@
-# IMPORTANT NOTICE
-
-This plugin is currently unavailable in the WordPress.org plugin repo due to a reported security vulnerability. 
-
-A patch for this plugin will be released very soon, in the meantime, we strongly suggest you use the following filters in a custom plugin or in your theme's functions.php file to enhace the security of your site until an update is released:
-
-1. Disable password resets using this plugin for administrators, you may also want to consider other roles with elevated privileges:
-```
-add_filter( 'bdpwr_allowed_roles' , function( $roles ) {
-
-  $key = array_search( 'administrator' , $roles );
-
-  if( $key !== false ) {
-    unset( $roles[ $key ] );
-  }
-
-  return $roles;
-
-}, 10 , 1 );
-```
-
-2. Increase the length of the code that is generated, you may need to consider your UI or implementation to ensure you can accomodate the longer code:
-```
-add_filter( 'bdpwr_code_length' , function( $length ) {
-  return 8;
-}, 10 , 1 );
-```
-
-3. Include more characters in the code that you send to users, again, you may need to consider your UI or implementation to ensure you can accomodate the additional characters:
-```
-add_filter( 'bdpwr_selection_string' , function( $string ) {
-  return '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"£$%^&*()_+-={}[]:@~;\'#<>?,./|\\';
-}, 10 , 4 );
-```
-
 # Password Reset with Code for WordPress REST API
 
 A simple plugin that adds a password reset facility to the WordPress REST API using a code. The process is a two step process:
 
-1. User requests a password reset. A 4 digit code is emailed to their registered email address
+1. User requests a password reset. A code is emailed to their registered email address
 2. The user enters the code when setting a new password, which is only set if the code is valid and has not expired
 
 It is also possible to check the validity of a code without resetting the password which enables the possibility of setting the password by other means, or having a two stage process for checking the code and resetting the password if desired.
 
-Default settings are to use a 4 digit numerical code which has a life span of 15 minutes, afterwhich a new code would need to be requested. By default a user can attempt to use or validate a code up to 3 times before automatically invalidating it.
+Default settings are to use an 8 digit code consisting of numbers, upper and lower case letters and special characters, which has a life span of 15 minutes, afterwhich a new code would need to be requested. By default a user can attempt to use or validate a code up to 3 times before automatically invalidating it.
+
+# IMPORTANT NOTICE
+
+This plugin was recently updated due to a reported security vulnerability. Changes to the default settings may not be backwards compatible depending on your integration with the plugin. The latest version may not currently be available through the WordPress.org repository.
+
+The following key updates were made:
+
+- By default users with the administrator role are no longer able to reset their password using this plugin. This can be changed using the `bdpwr_allowed_roles` filter.
+- The default length of the code that is generated has been increased from 4 to 8 characters. This can be changed using the `bdpwr_code_length` filter.
+- The default characters that are used to generate the code have been increased to include upper and lower case letters as well as special characters. This can be changed using the `bdpwr_selection_string` filter.
 
 ## Endpoints
 
@@ -68,7 +43,16 @@ If you find any issues or have ideas for the plugin, please feel free to raise a
 ## Contributions
 Contributors are definitely welcome. Please checkout the [CONTRIBUTING.md](https://github.com/dominic-ks/bdvs-password-reset/blob/master/CONTRIBUTING.md) file for info and guidelines.
 
+## Security Vulnerabilities
+Please report security bugs found in the source code of the bdvs-password-reset plugin through the Patchstack Vulnerability Disclosure Program. The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+[Report a security vulnerability.](https://patchstack.com/database/vdp/bdvs-password-reset) 
+
 ## Change Log
+ - 0.0.16
+   - updated compatibility to 6.3
+   - By default users with the administrator role are no longer able to reset their password using this plugin
+   - The default length of the code that is generated has been increased from 4 to 8 characters
+   - The default characters that are used to generate the code have been increased to include upper and lower case letters as well as special characters
  - 0.0.15
    - updated compatibility to 6.1.1
    - added github actions to auto-deploy to wordpress.org

@@ -17,7 +17,7 @@ function bdpwr_generate_4_digit_code() {
 	* @param $length int the number of digits for the code
 	*/
 
-	$length = apply_filters( 'bdpwr_code_length', 4 );
+	$length = apply_filters( 'bdpwr_code_length', 8 );
 
 	/**
 	*
@@ -118,7 +118,7 @@ function bdpwr_get_allowed_roles() {
 		}
 
 		$roles_array[] = $slug;
-		
+
 	}
 
 	/**

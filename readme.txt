@@ -3,9 +3,9 @@
 Contributors: dominic_ks, wpamitkumar
 Tags: wp-api, password reset
 Requires at least: 4.6
-Tested up to: 6.3
+Tested up to: 6.8.1
 Requires PHP: 5.4
-Stable tag: 0.0.16
+Stable tag: 0.0.17
 License: GNU GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0
 
@@ -266,6 +266,9 @@ Please report security bugs found in the source code of the bdvs-password-reset 
 
 == Upgrade Notice ==
 
+  = 0.0.17 =
+  * switched to a cryptographically secure function to generate reset codes
+  * updated compatibility to 6.8.1
   = 0.0.16 =
   * updated compatibility to 6.3
   * By default users with the administrator role are no longer able to reset their password using this plugin
@@ -276,6 +279,10 @@ Please report security bugs found in the source code of the bdvs-password-reset 
   Security enhancements
 
 == Changelog ==
+  = 0.0.17 =
+  * switched to a cryptographically secure function to generate reset codes
+  * updated compatibility to 6.5
+
   = 0.0.16 =
   * updated compatibility to 6.3
   * By default users with the administrator role are no longer able to reset their password using this plugin

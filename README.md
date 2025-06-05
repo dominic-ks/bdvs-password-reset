@@ -48,6 +48,9 @@ Please report security bugs found in the source code of the bdvs-password-reset 
 [Report a security vulnerability.](https://patchstack.com/database/vdp/bdvs-password-reset) 
 
 ## Change Log
+- 0.0.17
+  - switched to a cryptographically secure function to generate reset codes
+  - updated compatibility to 6.5
  - 0.0.16
    - updated compatibility to 6.3
    - By default users with the administrator role are no longer able to reset their password using this plugin

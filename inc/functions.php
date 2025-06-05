@@ -18,7 +18,7 @@ function bdpwr_generate_4_digit_code() {
 	*/
 
 	$length = apply_filters( 'bdpwr_code_length', 8 );
-	$selection_string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!£$%^&*()_+-={}[]@~\#<>?/|\\';
+       $selection_string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!£$%^&*()_+-={}[]@~\#<>?/|\\';
 
 	/**
 	*
@@ -27,9 +27,16 @@ function bdpwr_generate_4_digit_code() {
 	* @param $string str the string to select a code from
 	*/
 
-	$selection_string = apply_filters( 'bdpwr_selection_string', $selection_string );
+       $selection_string = apply_filters( 'bdpwr_selection_string', $selection_string );
 
-	return substr( str_shuffle( $selection_string ), 0, $length );
+       $max_index = strlen( $selection_string ) - 1;
+       $code      = '';
+       for ( $i = 0; $i < $length; $i++ ) {
+               $index  = random_int( 0, $max_index );
+               $code  .= $selection_string[ $index ];
+       }
+
+       return $code;
 }
 
 

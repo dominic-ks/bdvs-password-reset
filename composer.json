@@ -1,0 +1,8 @@
+{
+    "name": "bdvs/password-reset",
+    "description": "password reset api for wordpress",
+    "require-dev": {
+        "phpunit/phpunit": "7.*", 
+        "wp-cli/wp-cli-bundle": "*"
+    }
+}

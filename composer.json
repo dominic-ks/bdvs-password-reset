@@ -1,0 +1,13 @@
+{
+    "name": "bedevious/bdvs-password-reset",
+    "description": "Password reset with code REST API plugin tests",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0-or-later",
+    "require-dev": {
+        "yoast/phpunit-polyfills": "^2.0",
+        "wp-phpunit/wp-phpunit": "^6.6"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}

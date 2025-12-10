@@ -43,6 +43,24 @@ If you find any issues or have ideas for the plugin, please feel free to raise a
 ## Contributions
 Contributors are definitely welcome. Please checkout the [CONTRIBUTING.md](https://github.com/dominic-ks/bdvs-password-reset/blob/master/CONTRIBUTING.md) file for info and guidelines.
 
+## Testing
+The repository includes PHPUnit integration tests that exercise the plugin's REST API endpoints. To run them locally:
+
+1. Install development dependencies:
+   ```bash
+   composer install
+   ```
+2. Install the WordPress test suite (adjust database credentials as needed):
+   ```bash
+   bin/install-wp-tests.sh wordpress_test root '' localhost latest
+   ```
+3. Run the tests from the project root:
+   ```bash
+   composer test
+   ```
+
+The test bootstrap expects the WordPress test library in the default location used by `bin/install-wp-tests.sh`. If you install it elsewhere, set the `WP_PHPUNIT__DIR` environment variable to the appropriate path before running the test command.
+
 ## Security Vulnerabilities
 Please report security bugs found in the source code of the bdvs-password-reset plugin through the Patchstack Vulnerability Disclosure Program. The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
 [Report a security vulnerability.](https://patchstack.com/database/vdp/bdvs-password-reset) 

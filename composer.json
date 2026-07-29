@@ -1,0 +1,26 @@
+{
+    "name": "bdvs/bdvs-password-reset",
+    "description": "WordPress password reset plugin",
+    "type": "wordpress-plugin",
+    "license": "GPL-3.0",
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "brain/monkey": "^2.6",
+        "guzzlehttp/guzzle": "^7.0",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BDPWR\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test:unit": "phpunit --configuration phpunit.xml",
+        "test:integration": "phpunit --configuration phpunit.integration.xml"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

@@ -1,0 +1,99 @@
+services:
+
+  # ---------------------------------------------------------------------------
+  # Database
+  # ---------------------------------------------------------------------------
+  db:
+    image: mariadb:10.11
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # ---------------------------------------------------------------------------
+  # WordPress
+  # ---------------------------------------------------------------------------
+  wordpress:
+    image: wordpress:6.5-php8.2-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: "1"
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_MAIL_SMTP_PASSTHROUGH', true);
+        define('WP_DEBUG_LOG', true);
+    volumes:
+      - wp_data:/var/www/html
+      # Mount the plugin into WordPress
+      - ./:/var/www/html/wp-content/plugins/bdvs-password-reset
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost/wp-admin/install.php"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # WP-CLI setup — installs WordPress and creates test users, then exits
+  # ---------------------------------------------------------------------------
+  setup:
+    image: wordpress:cli-php8.2
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    environment:
+      WP_URL: "http://wordpress"
+      WP_TITLE: "BDPWR Test Site"
+      WP_ADMIN_USER: admin
+      WP_ADMIN_PASSWORD: AdminPass123!
+      WP_ADMIN_EMAIL: admin@bdpwr.test
+      TEST_SUBSCRIBER_EMAIL: subscriber@bdpwr.test
+      TEST_SUBSCRIBER_PASSWORD: SubscriberPass123!
+    volumes:
+      - wp_data:/var/www/html
+      - ./:/var/www/html/wp-content/plugins/bdvs-password-reset
+      - ./bin/setup-wordpress.sh:/setup-wordpress.sh
+    entrypoint: ["/bin/sh", "/setup-wordpress.sh"]
+    user: "33:33"  # www-data
+
+  # ---------------------------------------------------------------------------
+  # Test runner — runs the integration test suite
+  # ---------------------------------------------------------------------------
+  test-runner:
+    build:
+      context: .
+      dockerfile: tests/docker/Dockerfile
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    environment:
+      WP_BASE_URL: "http://wordpress"
+      TEST_DB_HOST: db
+      TEST_DB_NAME: wordpress
+      TEST_DB_USER: wordpress
+      TEST_DB_PASSWORD: wordpress
+      WP_ADMIN_EMAIL: admin@bdpwr.test
+      WP_ADMIN_PASSWORD: AdminPass123!
+      TEST_SUBSCRIBER_EMAIL: subscriber@bdpwr.test
+      TEST_SUBSCRIBER_PASSWORD: SubscriberPass123!
+    volumes:
+      - ./:/app
+    command: ["./vendor/bin/phpunit", "--configuration", "phpunit.integration.xml", "--testdox"]
+
+volumes:
+  db_data:
+  wp_data:

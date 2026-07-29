@@ -1,0 +1,130 @@
+name: Tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [master]
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Unit tests — fast, no Docker, runs on every push
+  # ---------------------------------------------------------------------------
+  unit:
+    name: Unit Tests (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["8.1", "8.2", "8.3"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, intl
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ matrix.php }}-${{ hashFiles('composer.json') }}
+          restore-keys: composer-${{ matrix.php }}-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run unit tests
+        run: ./vendor/bin/phpunit --configuration phpunit.xml
+
+  # ---------------------------------------------------------------------------
+  # Integration tests — Docker Compose, runs on PRs to master and on master
+  # ---------------------------------------------------------------------------
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+
+    env:
+      WP_BASE_URL: http://localhost:8080
+      TEST_DB_HOST: 127.0.0.1
+      TEST_DB_NAME: wordpress
+      TEST_DB_USER: wordpress
+      TEST_DB_PASSWORD: wordpress
+      WP_ADMIN_EMAIL: admin@bdpwr.test
+      WP_ADMIN_PASSWORD: AdminPass123!
+      TEST_SUBSCRIBER_EMAIL: subscriber@bdpwr.test
+      TEST_SUBSCRIBER_PASSWORD: SubscriberPass123!
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, intl, pdo_mysql
+          coverage: none
+
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-8.2-${{ hashFiles('composer.json') }}
+          restore-keys: composer-8.2-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Start MariaDB and WordPress
+        run: |
+          docker compose -f docker-compose.test.yml up -d db wordpress
+          echo "Waiting for database..."
+          for i in $(seq 1 30); do
+            docker compose -f docker-compose.test.yml exec -T db \
+              healthcheck.sh --connect --innodb_initialized 2>/dev/null && break
+            sleep 3
+          done
+          echo "Waiting for WordPress..."
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8080/wp-admin/install.php > /dev/null 2>&1 && break
+            sleep 3
+          done
+
+      # In CI we expose WordPress on port 8080 so the host can reach it.
+      # Override the docker-compose port mapping inline.
+      - name: Expose WordPress on host port 8080
+        run: |
+          docker compose -f docker-compose.test.yml stop wordpress
+          docker compose -f docker-compose.test.yml run -d \
+            -p 8080:80 \
+            --name bdpwr_wordpress \
+            wordpress
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8080/wp-admin/install.php > /dev/null 2>&1 && break
+            sleep 3
+          done
+
+      - name: Provision WordPress via WP-CLI
+        run: |
+          docker compose -f docker-compose.test.yml run --rm \
+            -e WP_URL=http://bdpwr_wordpress \
+            setup
+
+      - name: Run integration tests
+        run: |
+          ./vendor/bin/phpunit --configuration phpunit.integration.xml --testdox
+
+      - name: Dump WordPress logs on failure
+        if: failure()
+        run: |
+          docker compose -f docker-compose.test.yml logs wordpress || true
+
+      - name: Tear down
+        if: always()
+        run: docker compose -f docker-compose.test.yml down -v --remove-orphans
